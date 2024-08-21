@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Match</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Add Match</h1>
+    <form action="{{ url_for('add_match') }}" method="POST">
+        <label for="title">Match Name:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="date">Match Date:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="status">Match Status:</label>
+        <select id="status" name="status" required>
+            <option value="upcoming">Upcoming</option>
+            <option value="ongoing">Ongoing</option>
+            <option value="old">Old</option>
+        </select>
+
+        <button type="submit">Add Match</button>
+    </form>
+    <a href="{{ url_for('manage_matches') }}">Back to Manage Matches</a>
+</body>
+</html>

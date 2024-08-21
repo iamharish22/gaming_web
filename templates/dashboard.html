@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Dashboard</h1>
+<p>Welcome, {{ current_user.username }}!</p>
+
+<div class="profile-container">
+    <!-- Profile Overview -->
+    <div class="profile-overview">
+        <h2>Your Profile</h2>
+        
+        <!-- Profile Picture -->
+        <div class="profile-picture">
+            <h3>Profile Picture</h3>
+            {% if current_user.profile_picture %}
+                <img src="{{ url_for('static', filename='profile_pics/' ~ current_user.profile_picture) }}" alt="Profile Picture" style="max-width: 200px;">
+            {% else %}
+                <p>No profile picture uploaded.</p>
+            {% endif %}
+        </div>
+
+        <!-- Bio -->
+        <div class="bio-section">
+            <h3>Bio</h3>
+            <p>{{ current_user.bio if current_user.bio else "No bio available." }}</p>
+        </div>
+
+        <!-- Social Media Links -->
+        <div class="social-media-section">
+            <h3>Social Media Links</h3>
+            <ul>
+                {% if current_user.social_media_links %}
+                    {% for platform, link in current_user.social_media_links.items() %}
+                        <li><a href="{{ link }}" target="_blank">{{ platform }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <p>No social media links added.</p>
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- Update Profile Button -->
+        <div class="update-profile-section">
+            <a href="{{ url_for('update_profile') }}" class="btn btn-primary">Update Profile</a>
+        </div>
+    </div>
+
+    <!-- Wallet Section -->
+    <div class="wallet-section">
+        <h2>Your Wallet</h2>
+        <p>Current Balance: ₹{{ balance if balance is not none else 0 }}</p>
+
+        <!-- Deposit and Withdrawal Form -->
+        <form action="{{ url_for('wallet') }}" method="POST">
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" step="0.01" min="0" required>
+
+            <label for="transaction_type">Transaction Type:</label>
+            <select id="transaction_type" name="transaction_type" required>
+                <option value="deposit">Deposit</option>
+                <option value="withdrawal">Withdrawal</option>
+            </select>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
