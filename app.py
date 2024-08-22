@@ -51,6 +51,8 @@ class User(db.Model, UserMixin):
     social_media_links = db.Column(db.JSON, nullable=True)
     is_admin = db.Column(db.Boolean, default=False)
     wallet_balance = db.Column(db.Float, default=0.0)
+    upi_id = db.Column(db.String(100), nullable=True)  # Added UPI ID field
+
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -218,6 +220,11 @@ def update_profile():
     social_media_links = request.form.get('social_media_links')
     if social_media_links:
         user.social_media_links = json.loads(social_media_links)
+    
+    # Update UPI ID if provided
+    upi_id = request.form.get('upi_id')
+    if upi_id:
+        user.upi_id = upi_id
 
     db.session.commit()
     flash('Profile updated successfully!', 'success')
@@ -263,8 +270,8 @@ def wallet():
             db.session.commit()
             print(f"Transaction created: {new_transaction}") 
             # Generate UPI payment URL
-            upi_id = "8006199683@ybl"  # Replace with your UPI ID
-            upi_url = f'upi://pay?pa={upi_id}&pn=YourName&mc=0000&tid=000000000000&tt=123&am={amount}&cu=INR&url='
+            upi_id_1 = "8006199683@ybl"  # Replace with your UPI ID
+            upi_url = f'upi://pay?pa={upi_id_1}&pn=YourName&mc=0000&tid=000000000000&tt=123&am={amount}&cu=INR&url='
 
             # Redirect to the UPI payment app
             return redirect(upi_url)
@@ -473,7 +480,7 @@ def manage_transactions():
         action = request.form.get('action')
 
         # Validate transaction ID
-        if transaction_id is None:
+        if not transaction_id:
             flash('Transaction ID is missing.', 'danger')
             return redirect(url_for('manage_transactions'))
 
@@ -481,7 +488,7 @@ def manage_transactions():
         transaction = Transaction.query.get(transaction_id)
 
         # Validate the transaction
-        if transaction is None:
+        if not transaction:
             flash('Transaction not found.', 'danger')
             return redirect(url_for('manage_transactions'))
 
@@ -492,15 +499,31 @@ def manage_transactions():
         # Process the transaction based on the action
         if action == 'approve':
             transaction.status = 'approved'
-            if current_user.wallet_balance is None:
-                current_user.wallet_balance = 0.0
-            transaction.user.wallet_balance += transaction.amount
-            db.session.commit()
-            flash('Transaction approved and wallet updated.', 'success')
+            user = User.query.get(transaction.user_id)
+
+            if user:
+                if transaction.transaction_type == 'deposit':
+                    user.wallet_balance += transaction.amount
+                elif transaction.transaction_type == 'withdrawal':
+                    # Redirect to UPI app for withdrawal requests
+                    amount1 = transaction.amount
+                    upi_id = user.upi_id
+                    if user.upi_id:
+                        redirect_url = f'upi://pay?pa={upi_id}&pn=YourName&mc=0000&tid=000000000000&tt=123&am={amount1}&cu=INR&url='
+                        db.session.commit()  # Commit changes before redirect
+                        return redirect(redirect_url)
+                    user.wallet_balance -= transaction.amount
+                
+                db.session.commit()
+                flash('Transaction approved and wallet updated.', 'success')
+            else:
+                flash('User associated with the transaction not found.', 'danger')
+
         elif action == 'reject':
             transaction.status = 'rejected'
             db.session.commit()
             flash('Transaction rejected.', 'info')
+
         else:
             flash('Invalid action.', 'danger')
             return redirect(url_for('manage_transactions'))
@@ -508,6 +531,7 @@ def manage_transactions():
     # Fetch all pending transactions
     pending_transactions = Transaction.query.filter_by(status='pending').all()
     return render_template('admin/manage_transactions.html', transactions=pending_transactions)
+ 
 
 
 # Create database and tables if they don't exist

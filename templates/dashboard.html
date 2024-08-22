@@ -38,6 +38,10 @@
                 {% endif %}
             </ul>
         </div>
+        <div class="form-group">
+            <label for="upi_id">UPI ID:</label>
+            <p>{{ current_user.upi_id if current_user.upi_id else "No UPI ID available." }}</p>
+        </div>
 
         <!-- Update Profile Button -->
         <div class="update-profile-section">

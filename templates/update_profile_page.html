@@ -23,6 +23,11 @@
             <textarea name="social_media_links" id="social_media_links">{{ user.social_media_links | tojson }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">Update Profile</button>
+        <div class="form-group">
+            <label for="upi_id">UPI ID:</label>
+            <input type="text" id="upi_id" name="upi_id" value="{{ user.upi_id or '' }}" required>
+        </div>
+        <button type="submit">Update UPI ID</button>
     </form>
     
     <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
