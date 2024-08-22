@@ -505,6 +505,7 @@ def manage_transactions():
                 if transaction.transaction_type == 'deposit':
                     user.wallet_balance += transaction.amount
                 elif transaction.transaction_type == 'withdrawal':
+                    user.wallet_balance -= transaction.amount
                     # Redirect to UPI app for withdrawal requests
                     amount1 = transaction.amount
                     upi_id = user.upi_id
@@ -512,9 +513,8 @@ def manage_transactions():
                         redirect_url = f'upi://pay?pa={upi_id}&pn=YourName&mc=0000&tid=000000000000&tt=123&am={amount1}&cu=INR&url='
                         db.session.commit()  # Commit changes before redirect
                         return redirect(redirect_url)
-                    user.wallet_balance -= transaction.amount
-                
-                db.session.commit()
+                        
+                    db.session.commit()
                 flash('Transaction approved and wallet updated.', 'success')
             else:
                 flash('User associated with the transaction not found.', 'danger')

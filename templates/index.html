@@ -8,7 +8,10 @@
 </head>
 <body>
     <header>
-        <h1>Welcome to the Game Platform</h1>  
+        <div class="logo">
+            <img src="static\images\logo.png" alt="Logo">
+        </div>
+        <h1 class="h1-custom">Welcome's You</h1>  
         <nav>
             <a href="{{ url_for('index') }}">Home</a>
             {% if current_user.is_authenticated %}
@@ -22,7 +25,12 @@
             <a href="{{ url_for('admin_login') }}">Admin Login</a>
         </nav>
     </header>
-
+    <div class="container">
+        <!-- Responsive Image -->
+        <div class="image-container">
+            <img src="static\images\Screenshot 2024-08-22 200437.png" alt="Gaming Image" class="responsive-img">
+        </div>
+    </div>
     <!-- Flash Messages Section -->
     <section>
         {% with messages = get_flashed_messages(with_categories=True) %}
@@ -84,6 +92,7 @@
     </footer>
 </body>
 </html>
+
 
 
 

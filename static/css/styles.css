@@ -1,474 +1,722 @@
-/* General Styles */
-html, body {
+ /* General Styling */
+ body, html {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url('images\modern-futuristic-sci-fi-background.jpg') no-repeat center center fixed; /* Add your image URL here */
-    background-size: cover; /* Ensures the image covers the entire viewport */
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    color: #333;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    overflow-x: hidden;
 }
 
-/* Container for wrapping content */
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9); /* Add a white background with slight transparency */
-    border-radius: 10px; /* Optional: adds rounded corners */
-    flex: 1;
-}
-
-/* Header Styling */
 header {
-    background: linear-gradient(90deg, #0066cc, #003366); /* Updated gradient */
-    color: white;
-    padding: 20px 0; /* Increased padding for a better look */
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slightly heavier shadow */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Navigation Styling */
+.logo img {
+    max-width: 150px;
+    height: auto;
+}
+
+h1.h1-custom {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    animation: fadeInDown 1.5s ease;
+}
+
+/* Horizontal Navigation Bar Styling */
 nav {
     display: flex;
-    justify-content: center;
-    background-color: #003366; /* Updated color */
-    padding: 15px 0; /* Adjusted padding */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: center; /* Center the navbar items */
+    padding: 50px; /* Adjust padding as needed */
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Align list items horizontally */
+}
+
+nav li {
+    margin: 0 15px; /* Space between navigation items */
 }
 
 nav a {
-    color: white;
-    margin: 0 20px; /* Increased margin for spacing */
+    color: #fff;
     text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 5px; /* Slightly more rounded */
-    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+    margin: 10px;
 }
 
 nav a:hover {
-    background-color: #0056b3; /* Updated hover color */
-    color: #fff;
+    color: #00bcd4; /* Change color on hover */
 }
 
-/* Headings */
-h1 {
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    nav a {
+        margin: 0 10px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    nav ul {
+        flex-direction: column; /* Stack links vertically on small screens */
+        align-items: center;
+    }
+
+    nav a {
+        margin: 10px 0;
+        font-size: 1rem;
+    }
+}
+
+/* Flash Messages Styling */
+.flashes {
+    list-style: none;
+    padding: 15px;
+    margin: 20px auto;
+    width: 80%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
     text-align: center;
-    color: #222; /* Darker color for better readability */
-    margin-top: 30px; /* Increased margin for spacing */
-    font-weight: 300;
+    animation: slideInUp 0.8s ease;
 }
 
-/* Form Styling */
-form {
-    max-width: 500px; /* Wider form */
-    margin: 30px auto;
-    padding: 30px;
-    background-color: #fff;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+.flashes li {
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+/* Matches Section Styling */
+.matches {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 0;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
     border-radius: 10px;
+    width: 28%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 1s ease;
 }
 
-form div {
-    margin-bottom: 20px; /* Increased spacing */
+.card h2 {
+    margin-top: 0;
+    font-size: 1.8rem;
 }
 
-form label {
-    display: block;
-    margin-bottom: 8px; /* Increased margin for readability */
-    font-weight: bold;
-    color: #555;
-}
-
-form input[type="text"],
-form input[type="email"],
-form input[type="password"] {
-    width: 100%;
-    padding: 14px; /* Increased padding */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 16px;
-    color: #333;
-    transition: border-color 0.3s ease;
-}
-
-form input[type="text"]:focus,
-form input[type="email"]:focus,
-form input[type="password"]:focus {
-    border-color: #0066cc; /* Updated color */
-    outline: none;
-}
-
-form input[type="submit"] {
-    width: 100%;
-    padding: 14px; /* Increased padding */
-    background-color: #0066cc; /* Updated color */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-form input[type="submit"]:hover {
-    background-color: #0056b3; /* Updated hover color */
-}
-
-/* List Styling */
-ul {
-    list-style-type: none;
+.card ul {
+    list-style: none;
     padding: 0;
+    margin: 20px 0;
 }
 
-ul li {
-    padding: 12px;
-    background-color: #f4f4f4;
-    margin: 8px 0; /* Increased margin for better spacing */
+.card ul li {
+    padding: 8px 0;
+    font-size: 1.1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.card .view-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #00bcd4;
+    color: #fff;
     border-radius: 5px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Slightly heavier shadow */
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.card .view-btn:hover {
+    background-color: #0097a7;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Footer Styling */
 footer {
-    background: linear-gradient(90deg, #003366, #0066cc); /* Updated gradient */
-    color: white;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 30px;
     text-align: center;
-    padding: 20px;
-    margin-top: auto;
-    width: 100%;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* Slightly heavier shadow */
+    font-size: 0.9rem;
 }
 
-.footer-content p {
-    margin: 0;
-    padding: 5px;
+footer p {
+    margin: 10px 0;
 }
 
-.footer-content ul {
-    list-style-type: none;
+footer ul {
+    list-style: none;
     padding: 0;
-    margin: 10px 0 0 0;
-    display: flex;
-    justify-content: center;
 }
 
-.footer-content ul li {
-    margin: 0 15px; /* Increased margin for spacing */
+footer ul li {
+    display: inline-block;
+    margin: 0 10px;
 }
 
-.footer-content ul li a {
-    color: black; /* Updated color */
+footer ul li a {
+    color: #00bcd4;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-.footer-content ul li a:hover {
-    color: #ddd;
+footer ul li a:hover {
+    color: #fff;
 }
 
-/* Styles for the delete button */
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .matches {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 80%;
+        margin-bottom: 30px;
+    }
+
+    nav a {
+        margin: 0 10px;
+        font-size: 1rem;
+    }
+
+    h1.h1-custom {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logo img {
+        max-width: 100px;
+    }
+
+    h1.h1-custom {
+        font-size: 1.5rem;
+    }
+
+    nav a {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .card {
+        width: 100%;
+    }
+}
+
+/* Login Form Styling */
+form {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    margin: 50px auto;
+    animation: fadeInUp 1s ease;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #333;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #00bcd4;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #0097a7;
+}
+
+a {
+    color: #00bcd4;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #fff;
+}
+/* Dashboard Styling */
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #00bcd4;
+    animation: fadeInDown 1.5s ease;
+}
+
+.profile-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 0;
+    animation: fadeInUp 1s ease;
+}
+
+.profile-overview, .wallet-section {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    width: 45%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-overview:hover, .wallet-section:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.profile-overview h2, .wallet-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #00bcd4;
+}
+
+.profile-picture img {
+    border-radius: 50%;
+    border: 2px solid #00bcd4;
+    margin-top: 10px;
+    display: block;
+}
+
+.bio-section p, .social-media-section p, .form-group p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.social-media-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.social-media-section ul li {
+    margin: 10px 0;
+}
+
+.social-media-section ul li a {
+    color: #00bcd4;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-media-section ul li a:hover {
+    color: #fff;
+}
+
+.update-profile-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.update-profile-section .btn {
+    background-color: #00bcd4;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.update-profile-section .btn:hover {
+    background-color: #0097a7;
+}
+
+.wallet-section p {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.wallet-section form {
+    display: flex;
+    flex-direction: column;
+}
+
+.wallet-section label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.wallet-section input[type="number"],
+.wallet-section select {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #333;
+    font-size: 1rem;
+}
+
+.wallet-section button[type="submit"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #00bcd4;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.wallet-section button[type="submit"]:hover {
+    background-color: #0097a7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-overview, .wallet-section {
+        width: 80%;
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .profile-overview, .wallet-section {
+        width: 100%;
+    }
+}
+/* Button Styling */
+.btn-custom {
+    display: inline-block;
+    margin: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #e74c3c;
+    color: green;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #c0392b;
+}
+
+.btn {
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
 .btn-danger {
     background-color: #e74c3c;
     color: white;
-    border: none;
-    padding: 12px 25px; /* Increased padding */
-    font-size: 16px; /* Increased font size */
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .btn-danger:hover {
     background-color: #c0392b;
 }
-
-/* General table styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    background-color: #fff; /* Updated color */
+.btn-success {
+    background-color: green;
+    color: white;
 }
 
-thead th {
-    background-color: #0066cc; /* Updated color */
-    color: white;
+.btn-success:hover {
+    background-color: darkgreen;
+}
+
+/* Table Styling */
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #34495e;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+thead {
+    background-color: #1abc9c;
+}
+
+th, td {
     padding: 15px;
     text-align: left;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 1px solid #ecf0f1;
 }
 
-tbody td {
-    padding: 14px; /* Increased padding */
-    border-bottom: 1px solid #ddd;
-    color: #333;
+th {
+    font-size: 1.2rem;
+    color: white;
 }
 
-tbody tr:nth-child(odd) {
-    background-color: #f9f9f9; /* Slightly lighter color */
+td {
+    font-size: 1rem;
+    color: #ecf0f1;
 }
 
-tbody tr:hover {
-    background-color: #ececec; /* Slightly lighter hover color */
+tr:nth-child(even) {
+    background-color: #2c3e50;
+}
+
+tr:hover {
+    background-color: #34495e;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Link Styling */
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #2980b9;
+}
+
+/* Logout Link Styling */
+a[href="{{ url_for('admin_logout') }}"] {
+    display: block;
+    margin: 20px auto;
+    width: fit-content;
+    font-size: 1.1rem;
+    color: #e74c3c;
+}
+
+a[href="{{ url_for('admin_logout') }}"]:hover {
+    color: #c0392b;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    nav {
-        flex-direction: column;
+    table {
+        width: 100%;
     }
-
-    nav a {
-        margin: 10px 0;
-    }
-
-    form {
-        width: 90%;
-        margin: 20px auto;
-        padding: 20px;
-    }
-
-    .btn-danger {
-        padding: 10px 20px; /* Adjusted padding */
+    
+    th, td {
+        font-size: 0.9rem;
+        padding: 10px;
     }
 }
 
 @media (max-width: 480px) {
-    .footer-content ul {
-        flex-direction: column;
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
     }
 
-    .footer-content ul li {
-        margin: 5px 0;
-    }
-
-    form {
+    table {
         width: 100%;
-        padding: 15px;
     }
 
-    table,
-    thead th,
-    tbody td {
-        font-size: 14px;
+    th, td {
+        font-size: 0.8rem;
+        padding: 8px;
     }
 }
-
-/* Matches Section */
-.matches {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-}
-
-.card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    width: 30%;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: box-shadow 0.3s ease;
-}
-
-.card:hover {
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
-
-.card h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.card ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.card li {
-    margin-bottom: 8px;
-}
-
-.view-btn {
+/* Manage Transactions Button Styling */
+.btn-custom {
     display: inline-block;
-    margin-top: 15px;
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.view-btn:hover {
-    background-color: #0056b3; /* Updated hover color */
-}
-
-.manage-btn {
-    background-color: #007bff; /* Button color */
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-.manage-btn:hover {
-    background-color: #0056b3; /* Updated hover color */
-}
-.btn-success{
+    margin: 20px auto;
     padding: 10px 20px;
-    background-color: #28a745; /* Bootstrap success green */
-    color: white; /* White text */
-    border: none; /* Remove border */
+    font-size: 1.2rem;
+    background-color: #27ae60; /* Green background */
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.btn-custom:hover {
+    background-color: #219150; /* Darker green on hover */
+    transform: translateY(-2px); /* Lift effect on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.btn-custom a {
+    color: white; /* Ensures the link text is white */
+    text-decoration: none; /* Removes underline from link */
+}
+
+.btn-custom a:hover {
+    color: #f0f0f0; /* Slightly lighter color on hover */
+}
+/* Container for the image */
+.image-container {
+    width: 100%;
+    max-width: auto; /* Optional: Limit maximum width */
+    margin: 0 auto; /* Center the image horizontally */
+}
+
+/* Responsive Image */
+.responsive-img {
+    width: 100%; /* Ensures the image takes up 100% of its container's width */
+    height: auto; /* Maintains aspect ratio */
+    border-radius: 10px; /* Optional: Rounds the corners of the image */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+}
+/* Style the select element */
+select {
+    width: 100%; /* Full-width dropdown */
+    padding: 10px; /* Space inside the dropdown */
+    border: 1px solid #ccc; /* Border color */
     border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
+    background-color: #f9f9f9; /* Light background color */
     font-size: 16px; /* Font size */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
-}
-
-.btn-success:hover {
-    background-color: #218838; /* Darker green on hover */
-    transform: scale(1.05); /* Slight zoom on hover */
-}
-
-.btn-success:active {
-    background-color: #1e7e34; /* Even darker green when pressed */
-    transform: scale(1); /* Reset zoom when clicked */
-}
-
-.profile-container {
-    display: flex;
-    justify-content: space-between; /* Space between profile and wallet sections */
-    align-items: flex-start; /* Align items at the start (top) */
-    gap: 30px; /* Space between profile and wallet sections */
-    margin: 30px auto; /* Center the container on the page */
-    max-width: 1200px; /* Limit the overall width of the container */
-}
-
-.profile-overview,
-.wallet-section {
-    background-color: #f9f9f9; /* Light grey background */
-    padding: 20px; /* Add padding inside each section */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    flex: 1; /* Allow sections to take equal space */
-    max-width: 48%; /* Limit the maximum width of each section */
-}
-
-.profile-overview h2, .wallet-section h2 {
-    text-align: center; /* Center the headings */
-    color: #333; /* Darker text color */
-    margin-bottom: 20px; /* Space below the headings */
-}
-
-.profile-picture, .bio-section, .social-media-section {
-    margin-bottom: 20px; /* Space below each subsection */
-}
-
-.profile-picture img {
-    display: block;
-    margin: 0 auto; /* Center the profile picture */
-    border-radius: 50%; /* Make the profile picture circular */
-    border: 5px solid #007bff; /* Add a blue border around the profile picture */
-}
-
-.bio-section p, .wallet-section p {
-    text-align: center; /* Center the text */
-    color: #555; /* Grey text color */
-    font-size: 16px; /* Slightly larger font size */
-}
-
-.social-media-section ul {
-    list-style-type: none; /* Remove bullets */
-    padding: 0; /* Remove padding */
-    text-align: center; /* Center the list items */
-}
-
-.social-media-section li {
-    display: inline-block; /* Display list items horizontally */
-    margin: 0 10px; /* Space between social media links */
-}
-
-.social-media-section a {
-    color: #007bff; /* Blue text for links */
-    text-decoration: none; /* Remove underline */
-    transition: color 0.3s ease; /* Smooth transition for color */
-}
-
-.social-media-section a:hover {
-    color: #0056b3; /* Darker blue on hover */
-}
-
-.wallet-section label {
-    display: block; /* Ensure labels are on their own lines */
-    margin-bottom: 8px; /* Space between label and input */
-    font-weight: bold; /* Bold text for labels */
-    color: #333; /* Darker text color */
-}
-
-.wallet-section input[type="number"],
-.wallet-section select {
-    width: 100%; /* Full width inputs and select */
-    padding: 10px; /* Space inside input and select */
-    margin-bottom: 15px; /* Space below inputs and select */
-    border: 1px solid #ccc; /* Light grey border */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Larger font for readability */
-    background-color: #fff; /* White background */
-}
-
-.wallet-section button[type="submit"] {
-    width: 100%; /* Full width button */
-    padding: 10px; /* Space inside the button */
-    background-color: #007bff; /* Primary blue background */
-    color: white; /* White text */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Larger font size */
+    color: #333; /* Text color */
     cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+    appearance: none; /* Remove default arrow in some browsers */
+    -webkit-appearance: none; /* Remove default arrow in Safari */
+    -moz-appearance: none; /* Remove default arrow in Firefox */
 }
 
-.wallet-section button[type="submit"]:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: scale(1.02); /* Slight zoom on hover */
+/* Add a custom arrow */
+select::after {
+    content: '▼'; /* Custom arrow symbol */
+    font-size: 12px;
+    color: #333;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
 }
 
-.wallet-section button[type="submit"]:active {
-    background-color: #004085; /* Even darker blue when pressed */
-    transform: scale(1); /* Reset zoom when clicked */
+/* Style individual options */
+option {
+    padding: 10px;
+    background-color: #ffffff; /* Background color for options */
+    color: #333; /* Text color */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor */
 }
 
-.update-profile-section {
-    text-align: center; /* Center the button */
-    margin-top: 20px; /* Space above the button */
+/* Style for hover and selected states */
+select:hover, select:focus {
+    border-color: #777; /* Darker border color on hover/focus */
+    outline: none; /* Remove outline on focus */
 }
 
-.update-profile-section .btn-primary {
-    background-color: #007bff; /* Primary blue background */
-    color: white; /* White text */
-    padding: 10px 20px; /* Space inside the button */
-    border-radius: 5px; /* Rounded corners */
-    text-decoration: none; /* Remove underline from link */
-    display: inline-block; /* Allow block-like behavior */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+option:hover {
+    background-color: #eee; /* Light background on hover */
 }
 
-.update-profile-section .btn-primary:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: scale(1.02); /* Slight zoom on hover */
+option:checked {
+    background-color: #007bff; /* Background color for selected option */
+    color: #fff; /* Text color for selected option */
 }
 
-.update-profile-section .btn-primary:active {
-    background-color: #004085; /* Even darker blue when pressed */
-    transform: scale(1); /* Reset zoom when clicked */
-}
