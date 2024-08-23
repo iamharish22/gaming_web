@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style></style>
 </head>
 <body>
     <header>
@@ -46,45 +47,70 @@
 
     <main>
         <!-- Cards Section for Matches -->
-        <section class="matches">
-            <div class="card">
-                <h2>Upcoming Matches</h2>
-                <ul>
-                    {% for match in upcoming_matches %}
-                        <li>{{ match.title }} - {{ match.date }}</li>
-                    {% endfor %}
-                </ul>
-                <a href="{{ url_for('view_matches', match_type='upcoming') }}" class="view-btn">View Upcoming Matches</a>
-            </div>
+<section class="matches">
+    <div class="card">
+        <div class="card-img-wrapper">
+            <img src="static/images/bgmi-comic-art-u4so75xmj6mb1gr1.jpg" alt="Upcoming Matches">
+        </div>
+        <div class="card-content">
+            <h2 class="card-title">Upcoming Matches</h2>
+            <p class="card-subtitle"><i>Unleash The Thrill</i></p>
+            <ul>
+                {% for match in upcoming_matches %}
+                    <li>{{ match.title }} - {{ match.date }}</li>
+                {% endfor %}
+            </ul>
+            <p class="card-description">Catch the excitement of our upcoming games!</p>
+            <p class="card-metadata">Updated Date: August 23, 2024</p>
+            <a href="{{ url_for('view_matches', match_type='upcoming') }}" class="card-button">Join Now...</a>
+        </div>
+    </div>
 
-            <div class="card">
-                <h2>Ongoing Matches</h2>
-                <ul>
-                    {% for match in ongoing_matches %}
-                        <li>{{ match.title }} - {{ match.date }}</li>
-                    {% endfor %}
-                </ul>
-                <a href="{{ url_for('view_matches', match_type='ongoing') }}" class="view-btn">View Ongoing Matches</a>
-            </div>
+    <div class="card">
+        <div class="card-img-wrapper">
+            <img src="static/images/ongoing.jpg" alt="Ongoing Matches">
+        </div>
+        <div class="card-content">
+            <h2 class="card-title">Ongoing Matches</h2>
+            <p class="card-subtitle"><i>Unleash The Thrill</i></p>
+            <ul>
+                {% for match in upcoming_matches %}
+                    <li>{{ match.title }} - {{ match.date }}</li>
+                {% endfor %}
+            </ul>
+            <p class="card-description">Dive into the world of our ongoing games!</p>
+            <p class="card-metadata">Updated Date: August 23, 2024</p>
+            <a href="{{ url_for('view_matches', match_type='ongoing') }}" class="card-button">View Live...</a>
+        </div>
+    </div>
 
-            <div class="card">
-                <h2>Old Matches</h2>
-                <ul>
-                    {% for match in old_matches %}
-                        <li>{{ match.title }} - {{ match.date }}</li>
-                    {% endfor %}
-                </ul>
-                <a href="{{ url_for('view_matches', match_type='old') }}" class="view-btn">View Old Matches</a>
-            </div>
-        </section>
+    <div class="card">
+        <div class="card-img-wrapper">
+            <img src="static/images/old.jpg" alt="Old Matches">
+        </div>
+        <div class="card-content">
+            <h2 class="card-title">Old Matches</h2>
+            <p class="card-subtitle"><i>Unleash The Thrill</i></p>
+            <ul>
+                {% for match in upcoming_matches %}
+                    <li>{{ match.title }} - {{ match.date }}</li>
+                {% endfor %}
+            </ul>
+            <p class="card-description">Explore our old games!</p>
+            <p class="card-metadata">Updated Date: August 23, 2024</p>
+            <a href="{{ url_for('view_matches', match_type='old') }}" class="card-button">Explore Old...</a>
+        </div>
+    </div>
+</section>
+
     </main>
 
     <!-- Footer Section -->
     <footer>
         <div class="footer-content">
-            <p>&copy; 2024 Your Website Name. All rights reserved.</p>
+            <p>&copy; 2024 Harish Gaming. All rights reserved.</p>
             <ul>
-                <li><a href="/privacy-policy">Privacy Policy</a></li>
+                <li><a href="/privacy_policy.html">Privacy Policy</a></li>
                 <li><a href="/terms-of-service">Terms of Service</a></li>
                 <li><a href="/contact">Contact Us</a></li>
             </ul>
