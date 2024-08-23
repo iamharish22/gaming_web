@@ -113,6 +113,7 @@ nav a:hover {
     justify-content: center; /* Center cards in the container */
 }
 
+/* Basic card styling */
 .card {
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -122,7 +123,7 @@ nav a:hover {
     margin: 16px;
     overflow: hidden;
     text-align: center;
-    background-color:#0f81df; /* Solid background color for the card */
+    background-color: #0f81df; /* Solid background color for the card */
     transition: transform 0.3s, box-shadow 0.3s; /* Adds some transition effects */
 }
 
@@ -190,9 +191,42 @@ nav a:hover {
 }
 
 /* Responsive adjustments */
+@media (max-width: 1200px) {
+    .card {
+        max-width: 45%; /* Adjust card width for medium screens */
+        margin: 16px auto; /* Center cards with auto margins */
+    }
+}
+
+@media (max-width: 992px) {
+    .card {
+        max-width: 30%; /* Adjust card width for smaller screens */
+        margin: 12px auto; /* Center cards with auto margins */
+    }
+}
+
 @media (max-width: 768px) {
     .card {
         max-width: 100%; /* Full width on small screens */
+        margin: 8px auto; /* Center cards with auto margins */
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        padding: 12px; /* Adjust padding for very small screens */
+    }
+
+    .card-title {
+        font-size: 1.2em; /* Adjust font size for very small screens */
+    }
+
+    .card-subtitle {
+        font-size: 1em; /* Adjust font size for very small screens */
+    }
+
+    .card-description {
+        font-size: 0.9em; /* Adjust font size for very small screens */
     }
 }
 /* Footer Styling */
