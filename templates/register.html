@@ -11,6 +11,11 @@
         <input type="email" name="email" id="email" value="{{ request.form.get('email', '') }}" required>
     </div>
     <div>
+        <label for="phone_number">Phone Number</label>
+        <input type="tel" name="phone_number" id="phone_number" value="{{ request.form.get('phone_number', '') }}" required>
+    </div>
+    
+    <div>
         <label for="password">Password</label>
         <input type="password" name="password" id="password" value="{{ request.form.get('password', '') }}" required>
     </div>

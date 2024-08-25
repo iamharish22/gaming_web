@@ -12,6 +12,7 @@ import json
 import random
 from functools import wraps
 from datetime import datetime
+import requests
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -30,6 +31,8 @@ app.config.update(
     MAIL_DEFAULT_SENDER='88daee7f3f0488' 
 )
 mail = Mail(app)
+
+FAST2SMS_API_KEY = 'ZK6546Kod3VutrUdpxrhD2tqCQK3borO0FSvEyoSU0jGLdXjSCGIujSHChK2'
 
 # Initialize extensions
 db = SQLAlchemy(app)
@@ -52,6 +55,7 @@ class User(db.Model, UserMixin):
     is_admin = db.Column(db.Boolean, default=False)
     wallet_balance = db.Column(db.Float, default=0.0)
     upi_id = db.Column(db.String(100), nullable=True)  # Added UPI ID field
+    phone_number = db.Column(db.String(15), unique=True,nullable=False)
 
 
     def set_password(self, password):
@@ -102,6 +106,34 @@ def admin_required(f):
 def index():
     return render_template('index.html')
 
+# Your send_otp function using Fast2SMS
+def send_otp(phone_number, otp):
+    url = "https://www.fast2sms.com/dev/bulkV2"
+    querystring = {
+        "authorization": FAST2SMS_API_KEY,  # Replace with your Fast2SMS API key
+        "variables_values": otp,  # The OTP to be sent
+        "route": "otp",  # OTP route as per Fast2SMS documentation
+        "numbers": phone_number  # Recipient phone number
+    }
+    headers = {
+        'cache-control': "no-cache"
+    }
+
+    response = requests.get(url, headers=headers, params=querystring)
+
+    # Check if the response was successful
+    if response.status_code == 200:
+        response_json = response.json()
+        if response_json.get('return') == True:  # Check response status
+            return True
+        else:
+            print("Error sending OTP:", response_json.get('message'))
+            return False
+    else:
+        print("Error:", response.status_code, response.text)  # Print error details for debugging
+        return False
+
+# Register route
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     otp_sent = False
@@ -109,37 +141,53 @@ def register():
         action = request.form['action']
         username = request.form['username']
         email = request.form['email']
+        phone_number = request.form['phone_number']
         password = request.form['password']
 
         if action == 'Send OTP':
-            # Generate and send OTP
-            session['otp'] = str(random.randint(100000, 999999))  # Store OTP in session
-            msg = Message('Your OTP', sender='your-email@example.com', recipients=[email])
-            msg.body = f'Your OTP is {session["otp"]}'
-            mail.send(msg)
-            otp_sent = True
-            flash('OTP sent to your email!', 'info')
+            if len(phone_number) == 10 and phone_number.isdigit():  # Validate Indian phone number
+                otp = str(random.randint(1000, 9999))  # Generate a random 4-digit OTP
+                session['otp'] = otp  # Store OTP in session
+                session['phone_number'] = phone_number  # Store phone number in session
+                if send_otp(phone_number, otp):  # Use send_otp function to send OTP
+                    otp_sent = True
+                    flash('OTP sent to your phone number!', 'info')
+                else:
+                    flash('Failed to send OTP. Please try again.', 'danger')
+            else:
+                flash('Invalid phone number. Please enter a valid 10-digit phone number.', 'danger')
 
         elif action == 'Verify OTP':
             entered_otp = request.form['otp']
             if entered_otp == session.get('otp'):
+                phone_number = session.get('phone_number')
+                if not phone_number:
+                    flash('No phone number found in session. Please start again.', 'danger')
+                    return redirect(url_for('register'))
                 try:
-                    new_user = User(username=username, email=email)
-                    new_user.set_password(password)
-                    db.session.add(new_user)
-                    db.session.commit()
-                    session.pop('otp', None)  # Clear OTP from session
-                    flash('Registration successful!', 'success')
-                    return redirect(url_for('login'))
+                    existing_user = User.query.filter_by(phone_number=phone_number).first()
+                    if existing_user:
+                        flash('Phone number already registered!', 'danger')
+                        otp_sent = True
+                    else:
+                        new_user = User(username=username, email=email, phone_number=phone_number)
+                        new_user.set_password(password)
+                        db.session.add(new_user)
+                        db.session.commit()
+                        session.pop('otp', None)  # Clear OTP from session
+                        session.pop('phone_number', None)  # Clear phone number from session
+                        flash('Registration successful!', 'success')
+                        return redirect(url_for('login'))
                 except IntegrityError:
                     db.session.rollback()  # Rollback the session to clear any changes
-                    flash('Error: Email address already registered!', 'danger')
+                    flash('Error: Phone number already registered!', 'danger')
                     otp_sent = True  # Keep the OTP sent flag true so the form is displayed correctly
             else:
                 flash('Invalid OTP!', 'danger')
                 otp_sent = True
 
     return render_template('register.html', otp_sent=otp_sent)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -470,7 +518,7 @@ def view_matches(match_type):
         return redirect(url_for('index'))
 
     return render_template('view_matches.html', matches=matches, title=title)
-
+# Faulty ---------
 @app.route('/admin/manage_transactions', methods=['GET', 'POST'])
 @admin_required
 def manage_transactions():
