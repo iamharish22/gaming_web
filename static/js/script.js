@@ -1,19 +1,15 @@
-// JavaScript to dynamically add loading animation to the DOM
-window.addEventListener("load", function () {
-    // Create the loading div and spinner
-    var loadingDiv = document.createElement("div");
-    loadingDiv.id = "loading";
-    loadingDiv.innerHTML = '<div class="spinner"></div>';
-
-    // Append the loading div to the body
-    document.body.prepend(loadingDiv);
-
-    // Once the page is loaded, hide the loading animation
-    loadingDiv.style.display = "none";
-
-    // Show the main content
+// JavaScript to show loading animation until the page content is fully loaded
+document.addEventListener("DOMContentLoaded", function() {
+    // Show the loading animation
+    var loading = document.getElementById("loading");
     var content = document.getElementById("content");
-    if (content) {
+
+    // Once the page is fully loaded
+    window.addEventListener("load", function () {
+        // Hide the loading animation
+        loading.style.display = "none";
+        
+        // Show the main content
         content.style.display = "block";
-    }
+    });
 });

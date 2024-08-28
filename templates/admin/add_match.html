@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
+     <!-- Loading Animation -->
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
     <h1>Add Match</h1>
     <form action="{{ url_for('add_match') }}" method="POST">
         <label for="title">Match Name:</label>

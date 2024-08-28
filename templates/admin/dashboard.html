@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
+     <!-- Loading Animation -->
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
     <h1>Admin Dashboard</h1>
     <button class="btn-custom"><a href="{{ url_for('manage_transactions') }}">Manage Transactions</a></button>
     

@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
+     <!-- Loading Animation -->
+     <div id="loading">
+        <div class="spinner"></div>
+    </div>
     <nav>
         <a href="{{ url_for('index') }}">Home</a>
         {% if current_user.is_authenticated %}
