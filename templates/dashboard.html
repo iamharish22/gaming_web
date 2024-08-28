@@ -52,7 +52,7 @@
     <!-- Wallet Section -->
     <div class="wallet-section">
         <h2>Your Wallet</h2>
-        <p>Current Balance: ₹{{ balance if balance is not none else 0 }}</p>
+        <p>Current Balance: ₹{{ balance  if balance is not none else 0 }}</p>
 
         <!-- Deposit and Withdrawal Form -->
         <form action="{{ url_for('wallet') }}" method="POST">
@@ -69,5 +69,6 @@
         </form>
     </div>
 </div>
+<script src="static\js\script.js"></script>
 {% endblock %}
 

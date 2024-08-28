@@ -313,7 +313,7 @@ def wallet():
                 return redirect(url_for('wallet'))
 
             # Create a new transaction record for the deposit
-            new_transaction = Transaction(user_id=current_user.id, amount=amount, transaction_type='pending')
+            new_transaction = Transaction(user_id=current_user.id, amount=amount, transaction_type='deposit', status='pending')
             db.session.add(new_transaction)
             db.session.commit()
             print(f"Transaction created: {new_transaction}") 
@@ -331,23 +331,17 @@ def wallet():
 
             if current_user.wallet_balance >= amount:
                 # Create a new transaction record for the withdrawal
-                new_transaction = Transaction(user_id=current_user.id, amount=amount, transaction_type='withdrawal')
+                new_transaction = Transaction(user_id=current_user.id, amount=amount, transaction_type='withdrawal', status='pending')
                 db.session.add(new_transaction)
                 db.session.commit()
-                
-                # Update user wallet balance
-                current_user.wallet_balance -= amount
-                db.session.commit()
-                
-                flash('Money withdrawn from wallet successfully!', 'success')
+                flash('Withdrawal request submitted. Awaiting admin approval.', 'success')
             else:
                 flash('Insufficient balance!', 'danger')
 
-        # After processing the POST request, redirect to avoid form resubmission on refresh
         return redirect(url_for('wallet'))
 
-    # Handle GET request to display the dashboard
-    return render_template('dashboard.html', balance=current_user.wallet_balance)
+    return render_template('dashboard.html', user=current_user, balance=current_user.wallet_balance)
+
 
 
 
@@ -523,19 +517,15 @@ def view_matches(match_type):
 @admin_required
 def manage_transactions():
     if request.method == 'POST':
-        # Get the transaction ID and action from the form
         transaction_id = request.form.get('transaction_id')
         action = request.form.get('action')
 
-        # Validate transaction ID
         if not transaction_id:
             flash('Transaction ID is missing.', 'danger')
             return redirect(url_for('manage_transactions'))
 
-        # Find the transaction by ID
-        transaction = Transaction.query.get(transaction_id)
+        transaction = db.session.get(Transaction, transaction_id)  # Updated to use db.session.get()
 
-        # Validate the transaction
         if not transaction:
             flash('Transaction not found.', 'danger')
             return redirect(url_for('manage_transactions'))
@@ -544,44 +534,51 @@ def manage_transactions():
             flash('Transaction has already been processed.', 'danger')
             return redirect(url_for('manage_transactions'))
 
-        # Process the transaction based on the action
-        if action == 'approve':
-            transaction.status = 'approved'
-            user = User.query.get(transaction.user_id)
+        try:
+            if action == 'approve':
+                transaction.status = 'approved'
+                user = db.session.get(User, transaction.user_id)  # Updated to use db.session.get()
 
-            if user:
-                if transaction.transaction_type == 'deposit':
-                    user.wallet_balance += transaction.amount
-                elif transaction.transaction_type == 'withdrawal':
-                    user.wallet_balance -= transaction.amount
-                    # Redirect to UPI app for withdrawal requests
-                    amount1 = transaction.amount
-                    upi_id = user.upi_id
-                    if user.upi_id:
-                        redirect_url = f'upi://pay?pa={upi_id}&pn=YourName&mc=0000&tid=000000000000&tt=123&am={amount1}&cu=INR&url='
-                        db.session.commit()  # Commit changes before redirect
-                        return redirect(redirect_url)
-                        
+                if user:
+                    if transaction.transaction_type == 'deposit':
+                        user.wallet_balance += transaction.amount
+                        print(f"Deposited {transaction.amount} to user {user.id}. New balance: {user.wallet_balance}")
+                    elif transaction.transaction_type == 'withdrawal':
+                        user.wallet_balance -= transaction.amount
+                        print(f"Withdrew {transaction.amount} from user {user.id}. New balance: {user.wallet_balance}")
+
+                        if user.upi_id:
+                            amount1 = transaction.amount
+                            upi_id = user.upi_id
+                            redirect_url = f'upi://pay?pa={upi_id}&pn=YourName&mc=0000&tid=000000000000&tt=123&am={amount1}&cu=INR&url='
+                            db.session.commit()
+                            return redirect(redirect_url)
+                    
                     db.session.commit()
-                flash('Transaction approved and wallet updated.', 'success')
+                    flash('Transaction approved and wallet updated.', 'success')
+                else:
+                    flash('User associated with the transaction not found.', 'danger')
+
+            elif action == 'reject':
+                transaction.status = 'rejected'
+                db.session.commit()
+                flash('Transaction rejected.', 'info')
+
             else:
-                flash('User associated with the transaction not found.', 'danger')
+                flash('Invalid action.', 'danger')
+                return redirect(url_for('manage_transactions'))
 
-        elif action == 'reject':
-            transaction.status = 'rejected'
-            db.session.commit()
-            flash('Transaction rejected.', 'info')
-
-        else:
-            flash('Invalid action.', 'danger')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error processing transaction: {str(e)}', 'danger')
             return redirect(url_for('manage_transactions'))
 
-    # Fetch all pending transactions
     pending_transactions = Transaction.query.filter_by(status='pending').all()
     return render_template('admin/manage_transactions.html', transactions=pending_transactions)
+
+
+
  
-
-
 # Create database and tables if they don't exist
 with app.app_context():
     db.create_all()

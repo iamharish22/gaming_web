@@ -3,257 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Match Card Example</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-   <style>/* General Reset */
-    body, html {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Arial', sans-serif;
-        background-color: #f8f9fa;
-        background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
-    }
-    
-    /* Header Styles */
-    .header {
-        background-color: #343a40;
-        color: #fff;
-        padding: 10px 0;
-        position: relative;
-    }
-    
-    .header .logo img {
-        max-width: 150px;
-    }
-    
-    /* Sidebar Styles */
-    .collapse#sidebarMenu {
-        width: 250px;
-        background-color: #343a40;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        overflow-y: auto;
-        transition: all 0.3s;
-        z-index: 1000;
-        transform: translateX(-100%);
-    }
-    
-    .collapse.show#sidebarMenu {
-        transform: translateX(0);
-    }
-    
-    .sidebar .nav-link {
-        color: #ddd;
-        padding: 10px 15px;
-        display: block;
-        transition: background-color 0.3s, color 0.3s;
-    }
-    
-    .sidebar .nav-link:hover {
-        background-color: #007bff;
-        color: #fff;
-    }
-    
-    /* Main Content Styles */
-    main {
-        margin-top: 20px;
-    }
-    .image-container {
-        width: 100%;
-
-    }
-    
-    .image-container img {
-        width: 100%;
-        border-radius: 10px;
-        margin-bottom: 20px;
-    }
-    
-    .card {
-        border: none;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s;
-    }
-    
-    .card:hover {
-        transform: scale(1.05);
-    }
-    
-    .view-btn {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 50px;
-        padding: 10px 20px;
-        transition: background-color 0.3s;
-    }
-    
-    .view-btn:hover {
-        background-color: #0056b3;
-    }
-    
-    /* Footer Styles */
-    footer {
-        background-color: #343a40;
-        color: #ddd;
-        padding: 20px 0;
-    }
-    
-    footer p {
-        margin: 0;
-    }
-    
-    footer ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-    }
-    
-    footer ul li {
-        display: inline;
-        margin: 0 10px;
-    }
-    
-    footer ul li a {
-        color: #ddd;
-        text-decoration: none;
-    }
-    
-    footer ul li a:hover {
-        color: #fff;
-    }
-    
-    /* Navbar Toggle Button */
-    .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h16M4 12h16M4 18h16' /%3E%3C/svg%3E");
-    }
-    </style>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Header Section -->
-    <header class="header">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="logo">
-                <img src="static/images/logo.png" alt="Logo" class="img-fluid">
+    <div class="container mt-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Match Details</h5>
+                <p class="card-text">
+                    <strong>Date & Time:</strong> August 26, 2024, 18:30 <br>
+                    <strong>Map:</strong> Erangel <br>
+                    <strong>Type:</strong> Duo <br>
+                    <strong>Winning Prize:</strong> $100 <br>
+                    <strong>Per Kill Prize:</strong> $10 <br>
+                    <strong>Players Joined:</strong> 40/100
+                </p>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-primary" onclick="location.href='/join_match/1'">Join Now</button>
+                    <span class="badge badge-success align-self-center">Active</span>
+                </div>
             </div>
-            <h2 class="text-white text-center">Welcome's You</h2><br>
-            <p class="lead">Join the ultimate gaming experience now!</p>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-    </header>
-    
-
-    <!-- Sidebar Section -->
-    <div class="collapse" id="sidebarMenu">
-        <div class="bg-dark p-4 sidebar">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active text-white" href="{{ url_for('index') }}">Home</a>
-                </li>
-                {% if current_user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ url_for('dashboard') }}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ url_for('logout') }}">Logout</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ url_for('login') }}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ url_for('register') }}">Register</a>
-                    </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ url_for('quick_join') }}">Quick Join a Match</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ url_for('admin_login') }}">Admin Login</a>
-                </li>
-            </ul>
         </div>
     </div>
 
-    <!-- Main Content Section -->
-    <main role="main" class="container mt-4">
-        <div class="container">
-            <!-- Responsive Image -->
-            <div class="image-container my-4">
-                <img src="static/images/Screenshot 2024-08-22 200437.png" alt="Gaming Image" class="responsive-img img-fluid">
-            </div>
-        </div>
-
-        <!-- Flash Messages Section -->
-        <section>
-            {% with messages = get_flashed_messages(with_categories=True) %}
-                {% if messages %}
-                    <ul class="flashes">
-                        {% for category, message in messages %}
-                            <li class="{{ category }}">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
-        </section>
-
-        <!-- Cards Section for Matches -->
-        <section class="matches">
-            <div class="card-deck">
-                <div class="card">
-                    <h2>Upcoming Matches</h2>
-                    <ul>
-                        {% for match in upcoming_matches %}
-                            <li>{{ match.title }} - {{ match.date }}</li>
-                        {% endfor %}
-                    </ul>
-                    <a href="{{ url_for('view_matches', match_type='upcoming') }}" class="btn btn-primary view-btn">View Upcoming Matches</a>
-                </div>
-
-                <div class="card">
-                    <h2>Ongoing Matches</h2>
-                    <ul>
-                        {% for match in ongoing_matches %}
-                            <li>{{ match.title }} - {{ match.date }}</li>
-                        {% endfor %}
-                    </ul>
-                    <a href="{{ url_for('view_matches', match_type='ongoing') }}" class="btn btn-primary view-btn">View Ongoing Matches</a>
-                </div>
-
-                <div class="card">
-                    <h2>Old Matches</h2>
-                    <ul>
-                        {% for match in old_matches %}
-                            <li>{{ match.title }} - {{ match.date }}</li>
-                        {% endfor %}
-                    </ul>
-                    <a href="{{ url_for('view_matches', match_type='old') }}" class="btn btn-primary view-btn">View Old Matches</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer Section -->
-    <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2024 Your Website Name. All rights reserved.</p>
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="/privacy-policy" class="text-white">Privacy Policy</a></li>
-            <li class="list-inline-item"><a href="/terms-of-service" class="text-white">Terms of Service</a></li>
-            <li class="list-inline-item"><a href="/contact" class="text-white">Contact Us</a></li>
-        </ul>
-    </footer>
-
     <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
